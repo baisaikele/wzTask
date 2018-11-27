@@ -206,6 +206,8 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "loadWeb ip:"+requestipBean.getIp()+"  port:"+requestipBean.getPort()+"  url:"+resourcesBean.getUrl());
         isSucces=true;
         ProxySettings.setProxy(web,requestipBean.getIp(),new Integer(requestipBean.getPort()),null);
+        String userAgentString = web.getSettings().getUserAgentString();
+        Log.d(TAG, "loadWeb: ua   :" +userAgentString);
         web.loadUrl(resourcesBean.getUrl());
     }
 
