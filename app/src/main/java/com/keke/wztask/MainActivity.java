@@ -219,11 +219,41 @@ public class MainActivity extends AppCompatActivity {
                     mHandler.sendEmptyMessage(1);
 
                     break;
+                case 4:
+
+//                 mHandler.sendEmptyMessage(3);
+                    PublicApi.getRefreshApiIP(new PublicApi.ResponseListener() {
+                        @Override
+                        public void success(Object o) {
+
+                            IpBean ipBean = (IpBean) o;
+                            List<IpBean.MsgBean> msg = ipBean.getMsg();
+                            ProxySettings.setProxy(web,msg.get(0).getIp(),new Integer(msg.get(0).getPort()),null);
+                            web.getSettings().setUserAgentString(str_ua[num]);
+                            String url = strurl[0];
+                            String userAgentString = web.getSettings().getUserAgentString();
+                            Log.d(TAG, url+"    loadWeb: ua   :" +userAgentString);
+                            Map<String, String> extraHeaders; extraHeaders = new HashMap<String, String>();
+                            extraHeaders.put("X-Forwarded-For", msg.get(0).getIp());
+                            extraHeaders.put("X-Forwarded-For-Pound",msg.get(0).getIp());
+                            extraHeaders.put("X-Requested-With", null);
+                            web.loadUrl(url,extraHeaders);
+                            viewById.setText(num+"");
+                            num++;
+                        }
+
+                        @Override
+                        public void error(String s) {
+
+                        }
+                    });
+                    break;
             }
         }
     };
 
 
+     TextView viewById;
     private int num=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -235,39 +265,14 @@ public class MainActivity extends AppCompatActivity {
         initWebView();
 
 
-        final TextView viewById = (TextView) findViewById(R.id.tv);
+      viewById = (TextView) findViewById(R.id.tv);
 
                 viewById.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
 
+                 mHandler.sendEmptyMessage(4);
 
-//                 mHandler.sendEmptyMessage(3);
-                 PublicApi.getRefreshApiIP(new PublicApi.ResponseListener() {
-                     @Override
-                     public void success(Object o) {
-
-                         IpBean ipBean = (IpBean) o;
-                         List<IpBean.MsgBean> msg = ipBean.getMsg();
-                         ProxySettings.setProxy(web,msg.get(0).getIp(),new Integer(msg.get(0).getPort()),null);
-                         web.getSettings().setUserAgentString(str_ua[num]);
-                         String url = strurl[0];
-                         String userAgentString = web.getSettings().getUserAgentString();
-                         Log.d(TAG, url+"    loadWeb: ua   :" +userAgentString);
-                          Map<String, String> extraHeaders; extraHeaders = new HashMap<String, String>();
-                         extraHeaders.put("X-Forwarded-For", msg.get(0).getIp());
-                         extraHeaders.put("X-Forwarded-For-Pound",msg.get(0).getIp());
-                         extraHeaders.put("X-Requested-With", null);
-                         web.loadUrl(url,extraHeaders);
-                         viewById.setText(num+"");
-                         num++;
-                     }
-
-                     @Override
-                     public void error(String s) {
-
-                     }
-                 });
 
              }
          });
@@ -382,13 +387,15 @@ public class MainActivity extends AppCompatActivity {
             {
                 //当进度走到100的时候做自己的操作，我这边是弹出dialog
                 Log.e(TAG, "onProgressChanged: "+progress +" isSuccess:  "+isSucces);
-//                if(progress == 100&&isSucces){
+                if(progress == 100&&isSucces){
 //                    mHandler.removeMessages(1);
-//                    mHandler.sendEmptyMessageDelayed(1,getRand(10,4)*1000);
-//                    web.scrollToBottom();
-//                    ipnum++;
-//
-//                }else if (progress == 100&&!isSucces){
+////                    mHandler.sendEmptyMessageDelayed(1,getRand(10,4)*1000);
+////                    web.scrollToBottom();
+////                    ipnum++;
+                    mHandler.sendEmptyMessage(4);
+
+                }
+//                else if (progress == 100&&!isSucces){
 //
 //                    erro+=1;
 //                    if (erro==5){
@@ -398,6 +405,7 @@ public class MainActivity extends AppCompatActivity {
 //                        mHandler.sendEmptyMessage(1);
 //                    }
 //                }
+
             }
         });
     }
