@@ -45,7 +45,7 @@ public class Api {
     public static String trueUrl, otherUrl;
     //    public static final String BaseUrl = "http://dzapi.mmpei.cn/";
     //public static final String BaseUrl = "http://47.100.18.5/";   //旧地址   微转
-    public static final String BaseUrl = "https://kk-api.ikeke.ltd/"; //新地址    壳壳
+    public static final String BaseUrl = "http://piping.mogumiao.com/"; //新地址    壳壳
     private static final String ThridUrl = "http://118.190.131.243";
 
     private static final int READ_TIME_OUT = 10 * 1000;

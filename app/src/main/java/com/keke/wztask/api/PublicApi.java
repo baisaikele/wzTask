@@ -1,5 +1,8 @@
 package com.keke.wztask.api;
 
+import com.google.gson.Gson;
+import com.keke.wztask.IpBean;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -57,6 +60,52 @@ public class PublicApi {
 //
 //            }
 //        });
+    }
+
+    public static void getRefreshApiIP(final ResponseListener listener) {
+        HashMap<String, String> map1 = new HashMap<>();
+//        HashMap<String, String> stringStringHashMap = Api.initMap(map1, Api.BaseUrl + ApiConstant.USER_REFRESH);
+        Api.getDefault().getdata(ApiConstant.IP, map1).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        String result = response.body().string();
+                        JSONObject jsonObject = new JSONObject(result);
+                        int code = jsonObject.getInt("code");
+                        IpBean ipBean = new Gson().fromJson(result, IpBean.class);
+                        listener.success(ipBean);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        listener.success(401);
+
+                    }
+
+                } else {
+                    try {
+                        String result = response.errorBody().string();
+                        JSONObject jsonObject = new JSONObject(result);
+                        int code = jsonObject.getInt("code");
+                        listener.success(new Integer(code));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        listener.success(new Integer(401));
+
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
     }
 
 
