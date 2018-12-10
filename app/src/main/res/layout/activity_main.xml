@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context="asd.asd.asdasd.MainActivity">
 
 
 
 
-    <com.keke.wztask.BottomWebView
+    <asd.asd.asdasd.BottomWebView
         android:id="@+id/web"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </com.keke.wztask.BottomWebView>
+    </asd.asd.asdasd.BottomWebView>
 
 
     <TextView

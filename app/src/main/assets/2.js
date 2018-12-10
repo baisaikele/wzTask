@@ -1,0 +1,1 @@
+document.getElementById('root2').innerHTML = '这是js2'

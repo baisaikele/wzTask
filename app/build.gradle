@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.keke.wztask"
+        applicationId "asd.asd.asdasd"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
